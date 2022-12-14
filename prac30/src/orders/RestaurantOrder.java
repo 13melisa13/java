@@ -142,4 +142,8 @@ public class RestaurantOrder implements Order, Comparator<Item> {
     public int compare(Item o1, Item o2) {
         return o2.getCost() - o1.getCost();
     }
+    @Override
+    public String toString() {
+        return " "+Arrays.toString(itemUniqNames())+" ";
+    }
 }

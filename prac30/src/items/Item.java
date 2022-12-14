@@ -10,7 +10,7 @@ public class Item {
         this.name = name;
         this.description = description;
         if (cost < 0 || name.isEmpty() || description.isEmpty())
-            throw new Exception();
+            throw new Exception("Item Exception");
     }
 
 

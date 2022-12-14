@@ -15,7 +15,7 @@ public class InternetOrder implements Order, Comparator<Item> {
 
     public InternetOrder() {
         current = head = new Node(null, null, null);
-        head.prev = head.next = head;
+        //head.prev = head.next = head;
         size = 0;
         amount = 0;
     }
@@ -33,20 +33,19 @@ public class InternetOrder implements Order, Comparator<Item> {
 
     @Override
     public boolean addItem(Item item) {
-
-        Node temp = new Node(item, current, head);
         if (size == 0){
-            head = current = temp;
+            head = current = new Node(item, null, head);
             size++;
-            amount += temp.value.getCost();
+            amount += current.value.getCost();
+            //System.out.print(" "+current.value.getName());
             return true;
         }
-
-
         if (size < max && size >= 0){
-            current.next = temp;
+            current.next = new Node(item, current, head);
+            current = current.next;
             size++;
-            amount += temp.value.getCost();
+            amount += current.value.getCost();
+            //System.out.print(" "+current.value.getName());
             return true;
         }
         return false;
@@ -130,16 +129,22 @@ public class InternetOrder implements Order, Comparator<Item> {
         String[] names = new String[size];
         Node temp = head;
         for (int i = 0; i < size; i++) {
-            //System.out.println(temp.value.getName());
+            System.out.print(" "+temp.value.getName());
             names[i] = temp.value.getName();
             temp = temp.next;
         }
-        String[] a = new HashSet<String>(Arrays.asList(names)).toArray(new String[0]);
+        //System.out.println(Arrays.toString(names));
+        String[] a = new HashSet<>(Arrays.asList(names)).toArray(new String[0]);
         return  a;
     }
 
     @Override
     public int compare(Item o1, Item o2) {
         return o2.getCost() - o1.getCost();
+    }
+
+    @Override
+    public String toString() {
+        return " "+Arrays.toString(itemUniqNames())+" ";
     }
 }

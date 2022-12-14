@@ -6,33 +6,28 @@ import orders.Order;
 import java.util.HashMap;
 
 public class OrderManager {
-    HashMap<Integer, Object> orderHashMap = new HashMap<Integer, Object>();
-    HashMap<String, Object> orderHashMap1 = new HashMap<String, Object>();
+    HashMap<Integer, Object> orderHashMap = new HashMap<>();
+    HashMap<String, Object> orderHashMap1 = new HashMap<>();
 
-    public void add(Order o, int table) throws OrderAlreadyException{
-        String str = String.join(",", o.itemUniqNames());
+    public void add(Order o, Integer table) throws OrderAlreadyException{
         if (orderHashMap.containsKey(table))
-            throw new OrderAlreadyException(table);
-        else orderHashMap.put(table, str);
+            throw new OrderAlreadyException(table.toString());
+        else orderHashMap.put(table, o);
     }
     public Object getOrder(int table){
         return orderHashMap.get(table);
     }
-    public void add(Dish dish, int table) throws OrderAlreadyException{
-        if (orderHashMap.containsKey(table))
-            throw new OrderAlreadyException(table);
-        else orderHashMap.put(table, dish);
-    }
+
+
     public void removeOrder(int table){
         orderHashMap.remove(table);
     }
-    public HashMap orders(){
-        return orderHashMap;
-    }
 
-    public void add(Order o, String address) {
-        String str = String.join(",", o.itemUniqNames());
-        orderHashMap1.put(address, str);
+
+    public void add(Order o, String address) throws OrderAlreadyException {
+        if (orderHashMap1.containsKey(address))
+            throw new OrderAlreadyException(address);
+        else orderHashMap1.put(address, o);
     }
     public Object getOrder(String address){
         return orderHashMap1.get(address);
@@ -42,5 +37,8 @@ public class OrderManager {
     }
     public HashMap getInternetOrder(){
         return orderHashMap1;
+    }
+    public HashMap getRestaurantOrder(){
+        return orderHashMap;
     }
 }
