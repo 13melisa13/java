@@ -10,31 +10,45 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class OrderUI extends JFrame {
 
+    JPanel panel = new JPanel();
+    JLabel order = new JLabel();
+    JLabel total = new JLabel();
+    ArrayList<JLabel> items = new ArrayList<>();
+    GridLayout grid = new GridLayout();
+    public OrderUI(Customer customer, InternetOrder internetOrder){
+        super(customer.getFirstName()+" "+customer.getSecondName()+", welcome to our restaurant");
 
-    public OrderUI(){
-        super("Food order");
-        setPreferredSize(new Dimension(400, 400));
-        setJMenuBar(createFileMenu());
+        grid.setColumns(1);
+        grid.setRows(2);
+        setJMenuBar(createFileMenu(internetOrder));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setPreferredSize(new Dimension(400, 400));
+        pack();
         setVisible(true);
     }
-    private JMenuBar createFileMenu() {
+    private JMenuBar createFileMenu(InternetOrder internetOrder) {
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("Menu");
         JMenu dish = new JMenu("Dish");
         JMenu drink = new JMenu("Drink");
         JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem dish1 = new JMenuItem("Pizza: 4 cheeses, peperoni: 590");
-        JMenuItem dish2 = new JMenuItem("Salad: Greek, Caesar: 330");
-        JMenuItem dish3 = new JMenuItem("Lasagna: 660");
-        JMenuItem alco = new JMenuItem("Alcoholic");
-        JMenuItem non_al = new JMenuItem("Non-alcoholic");
+        ArrayList <JMenuItem> dishes = new ArrayList<>();
+        dishes.add(new JMenuItem("Cezar Salad 550"));
+        dishes.add(new JMenuItem("Greek Salad 310"));
+        dishes.add(new JMenuItem("Peperoni Pizza 750"));
+        JMenu alco = new JMenu("Alcoholic");
+        JMenu non_al = new JMenu("Non-alcoholic");
         drink.add(alco); drink.add(non_al);
-        dish.add(dish1); dish.add(dish2); dish.add(dish3);
+        for (JMenuItem item:dishes) {
+            dish.add(item);
+            item.addActionListener(e -> {
+                //internetOrder.addItem();
+            });
+        }
         file.add(dish);
         file.addSeparator();
         file.add(drink);
@@ -49,7 +63,10 @@ public class OrderUI extends JFrame {
 
 
     public static void main(String[] args) throws Exception {
-        new OrderUI();
+        Address address = new Address("Moscow", 111, "pr.Mira", 15, 24);
+        Customer customer = new Customer("Ivanov", "Ivan", 20, address);
+        InternetOrder internetOrder = new InternetOrder();
+        new OrderUI(customer,internetOrder );
         RestaurantOrder restaurantOrder = new RestaurantOrder();
         restaurantOrder.addItem(new Dish("Lasagna", "Tasty Italian dish", 600));
         restaurantOrder.addItem(new Drink("Juice", "Orange", 190, DrinkTypeEnum.JUICE, 0));
@@ -61,11 +78,9 @@ public class OrderUI extends JFrame {
 
         //System.out.println(orderManager.orders());
         OrderManager orderManager1 = new OrderManager();
-        InternetOrder internetOrder = new InternetOrder();
+
         internetOrder.addItem(new Dish("Lasagna", "Tasty Italian dish", 600));
         internetOrder.addItem(new Drink("Juice", "Orange", 190, DrinkTypeEnum.JUICE, 0));
-        Address address = new Address("Moscow", 111, "pr.Mira", 15, 24);
-        Customer customer = new Customer("Ivanov", "Ivan", 20, address);
         String cust = customer.getFirstName()+ " " + customer.getSecondName()+ " " + customer.getAge()
                 + "-> " + customer.getAddress();
         orderManager1.add(internetOrder, cust);
