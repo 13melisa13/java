@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: prac31.ItemExceptionTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s - in prac31.ItemExceptionTest
